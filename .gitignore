@@ -1,2 +1,5 @@
 .idea/
 venv/
+manage.py
+*/__pycache__/*
+*/migrations/*

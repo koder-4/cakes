@@ -1,0 +1,31 @@
+<h1>Рецепт</h1>
+<ul>
+    <li><a href="{% url 'edit' cake.id %}">{{ cake.title }}</a></li>
+    <li>Вес: {{ cake.weight }}г.</li>
+    <li>Себестоимость: {{ cake.get_cost_price }} р.</li>
+    <li>Цена: {{ cake.price }} р.</li>
+    <li><a href="{% url 'delete' cake.id %}">Удалить</a></li>
+</ul>
+<a href="{% url 'index' %}">Назад</a>
+<h1>Ингридиенты</h1>
+<a href="{% url 'component_add' cake.id %}">Добавить</a>
+{% if cake.component_set.count > 0 %}
+<table>
+    <tr>
+        <th>Наименование</th>
+        <th>Расход</th>
+        <th>Количество</th>
+        <th>Цена</th>
+        <th>Действие</th>
+    </tr>
+    {% for component in cake.component_set.all %}
+        <tr>
+            <td><a href="{% url 'component_edit' component.id %}">{{ component.ingredient.title }}</a></td>
+            <td>{{ component.amount }} {{ component.ingredient.get_measure_display }}/{{ component.get_usage_display }}</td>
+            <td>{{ component.get_total_amount }} {{ component.ingredient.get_measure_display }}</td>
+            <td>{{ component.get_cost_price }}</td>
+            <td><a href="{% url 'component_delete' component.id %}">Удалить</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}

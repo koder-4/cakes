@@ -1,0 +1,15 @@
+<title></title>
+<h1>Тортики:</h1>
+<a href="{% url 'ingredients_index' %}">Ингредиенты</a>
+{% for cake in cakes %}
+    <ul>
+        <li><a href="{% url 'recipe' cake.id %}">{{ cake.title }}</a></li>
+            <ul>
+                <li>Масса: {{ cake.weight }}</li>
+                <li>Себестоимость: {{ cake.get_cost_price }}р.</li>
+                <li>Цена: {{ cake.price }}р.</li>
+                <li>Обновлен: {{ cake.date_modified }}</li>
+            </ul>
+    </ul>
+{% endfor %}
+<a href="{%  url 'create' %}">Добавить</a>

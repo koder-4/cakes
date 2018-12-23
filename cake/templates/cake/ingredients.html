@@ -1,0 +1,22 @@
+<h1>Ингридиенты</h1>
+<a href="{% url 'index' %}">Назад</a><br>
+<a href="{% url 'ingredient_create' %}">Создать</a>
+<table>
+    <tr>
+        <th>Наименование</th>
+        <th>Количество</th>
+        <th>Цена</th>
+        <th>Дата изменения</th>
+        <th>Действие</th>
+    </tr>
+    {% for ingredient in ingredients %}
+    <tr>
+        <td><a href="{% url 'ingredient_edit' ingredient.id %}">{{ ingredient.title }}</a></td>
+        <td>{{ ingredient.weight}} {{ ingredient.get_measure_display }}</td>
+        <td>{{ ingredient.unit_price }}р.</td>
+        <td>{{ ingredient.date_modified }}</td>
+        <td><a href="{% url 'ingredient_delete' ingredient.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

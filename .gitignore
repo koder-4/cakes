@@ -1,5 +1,6 @@
 .idea/
 venv/
 manage.py
-*/__pycache__/*
+**/__pycache__/*
 */migrations/*
+meacake/settings/local__*

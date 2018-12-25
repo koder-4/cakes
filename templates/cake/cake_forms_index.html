@@ -1,0 +1,19 @@
+<h1>Формы для запекания</h1>
+<a href="{% url 'cake_form_add' %}">Добавить</a>
+<a href="{% url 'index' %}">Назад</a>
+{% if cake_forms %}
+<table>
+    <tr>
+        <th>Наименование</th>
+        <th>Вес</th>
+        <th>Действие</th>
+    </tr>
+    {% for cake_form in cake_forms %}
+        <tr>
+            <td><a href="{% url 'cake_form_edit' cake_form.id %}">{{ cake_form.title }}</a></td>
+            <td>{{ cake_form.weight }}</td>
+            <td><a href="{% url 'cake_form_delete' cake_form.id %}">Удалить</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}

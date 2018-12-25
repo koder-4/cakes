@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from cake.views import *
 
 urlpatterns = [
     path('', index, name='index'),
@@ -14,4 +14,8 @@ urlpatterns = [
     path('ingredient_create', ingredient_create, name='ingredient_create'),
     path('<int:ingredient_id>/ingredient_edit', ingredient_edit, name='ingredient_edit'),
     path('<int:ingredient_id>/ingredient_delete', ingredient_delete, name='ingredient_delete'),
+    path('cake_forms_index', cake_forms_index, name='cake_forms_index'),
+    path('cake_form_add', cake_form_add, name='cake_form_add'),
+    path('<int:cake_form_id>/cake_form_edit', cake_form_edit, name='cake_form_edit'),
+    path('<int:cake_form_id>/cake_form_delete', cake_form_delete, name='cake_form_delete'),
 ]

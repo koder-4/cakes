@@ -1,7 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.urls import reverse
-from .models import Cake, Ingredient
-from .forms import *
+from .forms import CreateCakeForm, EditCakeForm, \
+                CreateIngredientForm, EditIngredientForm,\
+                AddComponentForm, EditComponentForm, \
+                CreateCakeFormForm, EditCakeFormForm
+from .models import Cake, Ingredient, Component, CakeForm
 
 
 def index(request):
@@ -58,7 +61,7 @@ def ingredient_create(request):
             return HttpResponseRedirect(reverse('ingredients_index'))
     else:
         form = CreateIngredientForm()
-    return render(request, 'cake/ingredient_create.html ', {'form': form})
+    return render(request, 'cake/ingredient_create.html', {'form': form})
 
 
 def ingredient_edit(request, ingredient_id):
@@ -91,7 +94,7 @@ def component_add(request, cake_id):
             return HttpResponseRedirect(reverse('recipe', kwargs={'cake_id': cake_id}))
     else:
         form = AddComponentForm()
-    return render(request, 'cake/component_add.html ', {'form': form})
+    return render(request, 'cake/component_add.html', {'form': form})
 
 
 def component_edit(request, component_id):
@@ -113,3 +116,38 @@ def component_delete(request, component_id):
     cake_id = component.cake.id
     component.delete()
     return HttpResponseRedirect(reverse('recipe', kwargs={'cake_id': cake_id}))
+
+
+def cake_forms_index(request):
+    cake_forms = CakeForm.objects.order_by('-date_modified')
+    return render(request, 'cake/cake_forms_index.html', {'cake_forms': cake_forms})
+
+
+def cake_form_add(request):
+    if request.method == 'POST':
+        form = CreateCakeFormForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('cake_forms_index'))
+    else:
+        form = CreateCakeFormForm()
+    return render(request, 'cake/cake_form_add.html', {'form': form})
+
+
+def cake_form_edit(request, cake_form_id):
+    if request.method == 'POST':
+        form = EditCakeFormForm(request.POST)
+        if form.is_valid():
+            form._key = cake_form_id
+            form.save()
+            return HttpResponseRedirect(reverse('cake_forms_index'))
+    else:
+        cake_form = get_object_or_404(CakeForm, pk=cake_form_id)
+        form = EditCakeFormForm({'title': cake_form.title, 'weight': cake_form.weight,
+                                   'key': cake_form.id})
+        return render(request, 'cake/cake_form_edit.html', {'form': form})
+
+def cake_form_delete(request, cake_form_id):
+    cake_form = get_object_or_404(CakeForm, pk=cake_form_id)
+    cake_form.delete()
+    return HttpResponseRedirect(reverse('cake_forms_index'))

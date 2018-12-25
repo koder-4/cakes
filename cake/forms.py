@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django import forms
-from .models import Cake, Ingredient, Component
+from .models import Cake, Ingredient, Component, CakeForm
 
 
 class CreateCakeForm(forms.Form):
@@ -100,3 +100,23 @@ class EditComponentForm(AddComponentForm):
         component.date_modified = datetime.now()
         component.save()
         return component
+
+
+class CreateCakeFormForm(forms.Form):
+    title = forms.CharField(max_length=100)
+    weight = forms.IntegerField()
+
+    def save(self):
+        cake_form = CakeForm(**self.cleaned_data)
+        cake_form.save()
+        return cake_form
+
+
+class EditCakeFormForm(CreateCakeFormForm):
+    def save(self):
+        cake_form = get_object_or_404(CakeForm, pk=self._key)
+        cake_form.title = self.cleaned_data['title']
+        cake_form.weight = self.cleaned_data['weight']
+        cake_form.date_updated = datetime.now()
+        cake_form.save()
+        return cake_form

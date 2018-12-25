@@ -1,6 +1,7 @@
 <title></title>
 <h1>Тортики:</h1>
 <a href="{% url 'ingredients_index' %}">Ингредиенты</a>
+<a href="{% url 'cake_forms_index' %}">Формы</a>
 {% for cake in cakes %}
     <ul>
         <li><a href="{% url 'recipe' cake.id %}">{{ cake.title }}</a></li>

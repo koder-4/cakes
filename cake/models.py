@@ -2,6 +2,14 @@ from django.db import models
 from math import ceil
 
 
+class CakeForm(models.Model):
+    title = models.CharField(max_length=100)
+    weight = models.IntegerField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now_add=True)
+    version = models.IntegerField(default=1)
+
+
 class Ingredient(models.Model):
     measurements = (
         (1, 'кг'),
